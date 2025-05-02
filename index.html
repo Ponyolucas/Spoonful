@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <ul>
+            <li><a href="index.html">Task Manager</a></li>
+            <li><a href="intake.html">Intake Quiz</a></li>
+            <li><a href="about.html">About Spoon Theory</a></li>
+            <li><a href="share.html">Share Accomplishments</a></li>
+            <li><a href="rest.html">Rest Recommendations</a></li>
+        </ul>
+    </nav>
+    <div id="spoonBar">
+        <h3>Current Spoons:</h3>
+        <div id="spoonDisplay"></div>
+    </div>
+    <div class="container">
+        <h1>Task Manager</h1>
+        <input type="text" id="taskInput" placeholder="Add new task">
+        <select id="difficultySelect">
+            <option value="0.5">0.5 spoons</option>
+            <option value="1">1 spoon</option>
+            <option value="1.5">1.5 spoons</option>
+            <option value="2">2 spoons</option>
+            <option value="2.5">2.5 spoons</option>
+            <option value="3">3 spoons</option>
+        </select>
+        <button onclick="addTask()">Add Task</button>
+        <ul id="taskList"></ul>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

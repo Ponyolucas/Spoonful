@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Intake Quiz</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .quiz-question {
+      margin-bottom: 20px;
+    }
+
+    .quiz-question p {
+      font-weight: bold;
+    }
+
+    .quiz-options label {
+      display: block;
+      margin-left: 20px;
+      margin-top: 5px;
+    }
+
+    #spoonResult {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #0D47A1;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+      <ul>
+          <li><a href="index.html">Task Manager</a></li>
+          <li><a href="intake.html">Intake Quiz</a></li>
+          <li><a href="about.html">About Spoon Theory</a></li>
+          <li><a href="share.html">Share Accomplishments</a></li>
+          <li><a href="rest.html">Rest Recommendations</a></li>
+      </ul>
+  </nav>
+
+  <div class="container">
+    <h1>Spoon Intake Quiz</h1>
+
+    <!-- Manual slider -->
+    <p>Or set your spoons manually (1 to 8):</p>
+    <input type="range" id="spoonSlider" min="1" max="8" value="8" oninput="updateSpoonCount(this.value)">
+    <div id="spoonCount">8 spoons</div>
+
+    <hr>
+
+    <!-- Quiz -->
+    <form id="quizForm">
+      <h2>Answer the questions below to calculate your energy level:</h2>
+
+      <div class="quiz-question">
+        <p>1. How much sleep did you get last night?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q1" value="0.25"> Almost none</label>
+          <label><input type="radio" name="q1" value="0.5"> A little</label>
+          <label><input type="radio" name="q1" value="0.75"> A moderate amount</label>
+          <label><input type="radio" name="q1" value="1"> A good amount</label>
+        </div>
+      </div>
+
+      <div class="quiz-question">
+        <p>2. How hungry are you right now?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q2" value="0.25"> Starving</label>
+          <label><input type="radio" name="q2" value="0.5"> A bit hungry</label>
+          <label><input type="radio" name="q2" value="0.75"> Neutral</label>
+          <label><input type="radio" name="q2" value="1"> Full</label>
+        </div>
+      </div>
+
+      <div class="quiz-question">
+        <p>3. How much is your condition affecting you today?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q3" value="0.25"> It's a really hard day</label>
+          <label><input type="radio" name="q3" value="0.5"> It's a hard day</label>
+          <label><input type="radio" name="q3" value="0.75"> It's a normal day</label>
+          <label><input type="radio" name="q3" value="1"> It's better today</label>
+        </div>
+      </div>
+
+      <div class="quiz-question">
+        <p>4. How are you feeling mentally?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q4" value="0.25"> Currently struggling</label>
+          <label><input type="radio" name="q4" value="0.5"> Not doing the best</label>
+          <label><input type="radio" name="q4" value="0.75"> I'm doing okay</label>
+          <label><input type="radio" name="q4" value="1"> I'm feeling good today</label>
+        </div>
+      </div>
+
+      <div class="quiz-question">
+        <p>5. How stressed are you regarding upcoming deliverables?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q5" value="0.25"> Kinda have no idea where to start</label>
+          <label><input type="radio" name="q5" value="0.5"> A lot of work to do</label>
+          <label><input type="radio" name="q5" value="0.75"> Normal amount of work to do</label>
+          <label><input type="radio" name="q5" value="1"> A lighter day today</label>
+        </div>
+      </div>
+
+      <div class="quiz-question">
+        <p>6. How much are external stressors affecting your focus?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q6" value="0.25"> Can't get things off my mind easily</label>
+          <label><input type="radio" name="q6" value="0.5"> Definitely thinking about things</label>
+          <label><input type="radio" name="q6" value="0.75"> A normal amount of social baggage</label>
+          <label><input type="radio" name="q6" value="1"> My conscious is clean</label>
+        </div>
+      </div>
+
+      <div class="quiz-question">
+        <p>7. How much work do you want to get done today?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q7" value="0.25"> Taking more of a me day today</label>
+          <label><input type="radio" name="q7" value="0.5"> A moderate amount of work</label>
+          <label><input type="radio" name="q7" value="0.75"> Kinda need to work more than usual</label>
+          <label><input type="radio" name="q7" value="1"> Let's just say it's a lot unfortunately</label>
+        </div>
+      </div>
+
+      <div class="quiz-question">
+        <p>8. Overall, how are we feeling?</p>
+        <div class="quiz-options">
+          <label><input type="radio" name="q8" value="0.25"> Anything's better than rotting in bed</label>
+          <label><input type="radio" name="q8" value="0.5"> I feel like I can get something done today</label>
+          <label><input type="radio" name="q8" value="0.75"> I'm ready to lock in</label>
+          <label><input type="radio" name="q8" value="1"> I'm the baddest bitch that ever lived</label>
+        </div>
+      </div>
+
+      <button type="submit">Calculate and Set My Spoons</button>
+    </form>
+
+    <div id="spoonResult"></div>
+  </div>
+
+  <script>
+    let isManual = false;
+  
+    // Update slider visually and logically
+    function updateSpoonCount(value) {
+      isManual = true;
+      const count = parseFloat(value);
+      document.getElementById("spoonCount").textContent = count + " spoons";
+      localStorage.setItem("startingSpoons", count);
+      document.getElementById("spoonSlider").value = count;
+    }
+  
+    // When quiz is submitted
+    document.getElementById("quizForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+  
+      let total = 0;
+      let allAnswered = true;
+  
+      for (let i = 1; i <= 8; i++) {
+        const selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if (!selected) {
+          allAnswered = false;
+          break;
+        }
+        total += parseFloat(selected.value);
+      }
+  
+      if (!allAnswered) {
+        document.getElementById("spoonResult").textContent = "Please answer all questions!";
+        return;
+      }
+  
+      // Round using your custom logic
+let rounded = total;
+let decimal = rounded % 1;
+
+if (decimal === 0.25) {
+  rounded = Math.floor(rounded) + 0.5;
+} else if (decimal === 0.75) {
+  rounded = Math.ceil(rounded);
+}
+
+// Save, display, sync to slider
+localStorage.setItem("startingSpoons", rounded);
+document.getElementById("spoonResult").textContent = `Your spoon score is ${rounded} spoons. Saved!`;
+document.getElementById("spoonSlider").value = rounded;
+document.getElementById("spoonCount").textContent = rounded + " spoons";
+isManual = false;
+
+    });
+  
+    // On page load, sync from storage (if exists)
+    window.onload = function () {
+      const saved = localStorage.getItem("startingSpoons");
+      if (saved) {
+        updateSpoonCount(saved);
+      }
+    };
+  </script>
+</body>
+</html>
+
+
