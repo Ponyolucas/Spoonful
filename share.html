@@ -6,7 +6,8 @@
   <title>Share Accomplishments</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
-<body>
+<body class = "share-bg">
+  <div class = "overlay">  
     <nav class="navbar">
         <ul>
             <li><a href="index.html">Task Manager</a></li>
@@ -15,10 +16,76 @@
             <li><a href="share.html">Share Accomplishments</a></li>
             <li><a href="rest.html">Rest Recommendations</a></li>
         </ul>
-    </nav>    
-  <div class="container">
-    <h1>Share Your Wins</h1>
-    <p>Log small or big victories here — celebrate your progress.</p>
+    </nav>
+  
+
+
+  <div class="task-history-box">
+    <h1>🎉 Share Your Wins</h1>
+    <p>Here’s a list of the tasks you’ve completed recently. Celebrate them — they took energy!</p>
+  
+    <ul id="historyList"></ul>
+
+    <button onclick="clearHistory()" style="margin-top: 20px;">Clear Task History</button>
   </div>
+
+  <script>
+    function loadCompletedTasks() {
+      const historyList = document.getElementById("historyList");
+      historyList.innerHTML = "";
+  
+      const completed = JSON.parse(localStorage.getItem("completedTasks") || "[]");
+  
+      if (completed.length === 0) {
+        historyList.innerHTML = "<p>No tasks completed yet.</p>";
+        return;
+      }
+  
+      completed.forEach(task => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <span class="task-left">
+            ✅ <strong>${task.name}</strong>
+          </span>
+          <span class="task-right">
+            (${task.difficulty} spoons) – ${task.timestamp}
+          </span>
+        `;
+        historyList.appendChild(li);
+      });
+    }
+  
+    function clearHistory() {
+      if (confirm("Are you sure you want to clear your completed task history?")) {
+        localStorage.removeItem("completedTasks");
+        loadCompletedTasks();
+      }
+    }
+  
+    window.onload = loadCompletedTasks;
+  </script>
+  </div>
+
+<script>
+    const UNSPLASH_ACCESS_KEY = "6YNGyt45REgM2U4Zc3CednaxTsnMmCU9zpn6Q_aiOyA";
+  
+    async function loadBackgroundImage() {
+      try {
+        const response = await fetch(
+          `https://api.unsplash.com/photos/random?query=calm,nature&orientation=landscape&client_id=${UNSPLASH_ACCESS_KEY}`
+        );
+        const data = await response.json();
+        document.body.style.backgroundImage = `url(${data.urls.full})`;
+      } catch (error) {
+        console.error('Error loading Unsplash image:', error);
+      }
+    }
+  
+    loadBackgroundImage();
+  </script>  
+  
+  
 </body>
 </html>
+
+  

@@ -80,27 +80,7 @@ li {
     font-size: 14px;
 }
 
-.spoon-icon {
-    width: 20px;
-    height: 20px;
-    margin-right: 2px;
-    display: inline-block;
-}
-
-.half-spoon {
-    width: 10px;
-    height: 20px;
-    overflow: hidden;
-    display: inline-block;
-    position: relative;
-}
-
-.half-spoon img {
-    position: absolute;
-    left: 0;
-    top: 0;
-}
-
+/* === SPOON BAR STYLING === */
 #spoonBar {
     display: flex;
     align-items: center;
@@ -119,55 +99,11 @@ li {
     gap: 4px;
 }
 
-#spoonDisplay img {
-    width: 20px;
-    height: 20px;
-}
-
-#spoonDisplay img.spoon-icon {
+.spoon-icon {
     width: 24px;
     height: 24px;
-}
-
-.used-spoon {
-    filter: brightness(0) grayscale(100%);
-    opacity: 0.6;
-}
-.navbar {
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    z-index: 10;
-}
-
-.navbar ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    gap: 15px;
-}
-
-.navbar li {
-    display: inline;
-}
-
-.navbar a {
-    text-decoration: none;
-    font-weight: bold;
-    color: var(--primary-dark-color);
-    padding: 6px 12px;
-    border-radius: 6px;
-    transition: background-color 0.2s ease;
-}
-
-.navbar a:hover {
-    background-color: var(--primary-light-color);
-}
-
-#spoonDisplay img.spoon-icon {
-    width: 24px;
-    height: 24px;
+    margin-right: 2px;
+    display: inline-block;
 }
 
 .used-spoon {
@@ -202,3 +138,72 @@ li {
     opacity: 0.6;
     z-index: 2;
 }
+
+/* === NAVBAR === */
+.navbar {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    z-index: 10;
+}
+
+.navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 15px;
+}
+
+.navbar li {
+    display: inline;
+}
+
+.navbar a {
+    text-decoration: none;
+    font-weight: bold;
+    color: var(--primary-dark-color);
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.navbar a:hover {
+    background-color: var(--primary-light-color);
+}
+
+#historyList li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    background-color: #f9f9f9;
+    border-radius: 6px;
+    font-size: 15px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .task-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .task-right {
+    font-size: 14px;
+    color: #555;
+    white-space: nowrap;
+  }
+  
+  body.share-bg {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transition: background-image 0.5s ease-in-out;
+  }
+  .overlay {
+    background-color: rgba(255, 255, 255, 0.8); /* Soft white overlay */
+    min-height: 100vh;
+    padding: 20px;
+  } 

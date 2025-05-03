@@ -30,29 +30,28 @@
 </head>
 <body>
   <nav class="navbar">
-      <ul>
-          <li><a href="index.html">Task Manager</a></li>
-          <li><a href="intake.html">Intake Quiz</a></li>
-          <li><a href="about.html">About Spoon Theory</a></li>
-          <li><a href="share.html">Share Accomplishments</a></li>
-          <li><a href="rest.html">Rest Recommendations</a></li>
-      </ul>
+    <ul>
+      <li><a href="index.html">Task Manager</a></li>
+      <li><a href="intake.html">Intake Quiz</a></li>
+      <li><a href="about.html">About Spoon Theory</a></li>
+      <li><a href="share.html">Share Accomplishments</a></li>
+      <li><a href="rest.html">Rest Recommendations</a></li>
+    </ul>
   </nav>
 
   <div class="container">
     <h1>Spoon Intake Quiz</h1>
 
-    <!-- Manual slider -->
     <p>Or set your spoons manually (1 to 8):</p>
     <input type="range" id="spoonSlider" min="1" max="8" value="8" oninput="updateSpoonCount(this.value)">
     <div id="spoonCount">8 spoons</div>
 
     <hr>
 
-    <!-- Quiz -->
     <form id="quizForm">
       <h2>Answer the questions below to calculate your energy level:</h2>
 
+      <!-- REPEAT THIS BLOCK FOR EACH QUESTION -->
       <div class="quiz-question">
         <p>1. How much sleep did you get last night?</p>
         <div class="quiz-options">
@@ -140,24 +139,25 @@
   </div>
 
   <script>
-    let isManual = false;
-  
-    // Update slider visually and logically
     function updateSpoonCount(value) {
-      isManual = true;
       const count = parseFloat(value);
       document.getElementById("spoonCount").textContent = count + " spoons";
+
+      // Save to BOTH
       localStorage.setItem("startingSpoons", count);
+      localStorage.setItem("currentSpoons", count);
+
       document.getElementById("spoonSlider").value = count;
+
+      if (typeof updateSpoonBar === "function") updateSpoonBar(); // update visual bar if exists
     }
-  
-    // When quiz is submitted
+
     document.getElementById("quizForm").addEventListener("submit", function (e) {
       e.preventDefault();
-  
+
       let total = 0;
       let allAnswered = true;
-  
+
       for (let i = 1; i <= 8; i++) {
         const selected = document.querySelector(`input[name="q${i}"]:checked`);
         if (!selected) {
@@ -166,32 +166,31 @@
         }
         total += parseFloat(selected.value);
       }
-  
+
       if (!allAnswered) {
         document.getElementById("spoonResult").textContent = "Please answer all questions!";
         return;
       }
-  
-      // Round using your custom logic
-let rounded = total;
-let decimal = rounded % 1;
 
-if (decimal === 0.25) {
-  rounded = Math.floor(rounded) + 0.5;
-} else if (decimal === 0.75) {
-  rounded = Math.ceil(rounded);
-}
+      // Round custom logic
+      let rounded = total;
+      let decimal = rounded % 1;
+      if (decimal === 0.25) {
+        rounded = Math.floor(rounded) + 0.5;
+      } else if (decimal === 0.75) {
+        rounded = Math.ceil(rounded);
+      }
 
-// Save, display, sync to slider
-localStorage.setItem("startingSpoons", rounded);
-document.getElementById("spoonResult").textContent = `Your spoon score is ${rounded} spoons. Saved!`;
-document.getElementById("spoonSlider").value = rounded;
-document.getElementById("spoonCount").textContent = rounded + " spoons";
-isManual = false;
+      localStorage.setItem("startingSpoons", rounded);
+      localStorage.setItem("currentSpoons", rounded);
 
+      document.getElementById("spoonResult").textContent = `Your spoon score is ${rounded} spoons. Saved!`;
+      document.getElementById("spoonSlider").value = rounded;
+      document.getElementById("spoonCount").textContent = rounded + " spoons";
+
+      if (typeof updateSpoonBar === "function") updateSpoonBar();
     });
-  
-    // On page load, sync from storage (if exists)
+
     window.onload = function () {
       const saved = localStorage.getItem("startingSpoons");
       if (saved) {
@@ -201,5 +200,6 @@ isManual = false;
   </script>
 </body>
 </html>
+
 
 
